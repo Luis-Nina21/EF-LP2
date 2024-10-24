@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Pacientes</title>
+</head>
+<body>
+    <h2>Lista de Pacientes</h2>
+   
+</body>
+</html>

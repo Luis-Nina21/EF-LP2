@@ -1,0 +1,40 @@
+package com.examenFinal.entidades;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Paciente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nombre;
+    private String apellido;
+    private String direccion;
+    private String telefono;
+    private String email;
+    private String alergias;
+    
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    private List<Atencion> atenciones = new ArrayList<>();
+}
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Atencion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String fecha;
+    private String diagnostico;
+    private String tratamiento;
+    
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
+}

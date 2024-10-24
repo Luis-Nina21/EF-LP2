@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Atención Médica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #00aaff; /* Cambiado a color celeste */
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .option {
+            margin: 10px 0;
+        }
+
+        .option a {
+            display: block;
+            padding: 10px;
+            background-color: #00aaff; /* Cambiado a color celeste */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .option a:hover {
+            background-color: #0088cc; /* Un tono más oscuro de celeste */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Sistema de Atención Médica</h1>
+        <div class="option">
+            <a href="/atenciones/registrar-atencion">Registrar Atención</a>
+        </div>
+        <div class="option">
+            <a href="/atenciones/listar-atencion">Listar Atenciones</a>
+        </div>
+        <div class="option">
+            <a href="/paciente/registrar-pacientes">Registrar Historial Médico</a>
+        </div>
+        <div class="option">
+            <a href="/paciente/listar-pacientes">Listar Historiales Médicos</a>
+        </div>
+    </div>
+</body>
+</html>

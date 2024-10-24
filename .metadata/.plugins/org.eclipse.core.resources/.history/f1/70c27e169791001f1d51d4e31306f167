@@ -1,0 +1,51 @@
+import com.examenFinal.entidades.Paciente;
+import com.examenFinal.repositories.PacienteRepository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class PacienteService {
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    public Paciente registrarPaciente(Paciente paciente) throws Exception {
+        Paciente nuevoPaciente = pacienteRepository.save(paciente);
+        
+        generarPDFConstancia(nuevoPaciente);
+        
+        return nuevoPaciente;
+    }
+
+    public List<Paciente> listarPacientes() {
+        return pacienteRepository.findAll();
+    }
+
+    public void generarPDFConstancia(Paciente paciente) throws Exception {
+        InputStream reportStream = new ClassPathResource("reports/constanciaApellido.jrxml").getInputStream();
+
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(paciente));
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("nombre", paciente.getNombre());
+        parameters.put("apellido", paciente.getApellido());
+        parameters.put("direccion", paciente.getDireccion());
+        parameters.put("telefono", paciente.getTelefono());
+        parameters.put("email", paciente.getEmail());
+        parameters.put("alergias", paciente.getAlergias());
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+        JasperExportManager.exportReportToPdfFile(jasperPrint, "constancia_" + paciente.getApellido() + ".pdf");
+    }
+}

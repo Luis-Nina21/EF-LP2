@@ -1,0 +1,4 @@
+package com.examenFinal.repositories;
+
+public interface PacienteRepository extends JpaRepository<Paciente, Long> {}
+

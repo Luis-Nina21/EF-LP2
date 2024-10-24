@@ -1,0 +1,40 @@
+package com.examenFinal.controlador;
+
+import com.examenFinal.entidades.Atencion;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/atenciones")
+public class AtencionController {
+
+    @Autowired
+    private AtencionService atencionService;
+
+    @Autowired
+    private PacienteService pacienteService;
+
+    @GetMapping("/registrar")
+    public String mostrarFormularioRegistro(Model model) {
+        model.addAttribute("atencion", new Atencion());
+        model.addAttribute("pacientes", pacienteService.listarPacientes()); // Para seleccionar paciente
+        return "registrar-atencion"; // Nombre de la vista
+    }
+
+    @PostMapping("/registrar")
+    public String registrarAtencion(@ModelAttribute Atencion atencion) {
+        atencionService.registrarAtencion(atencion);
+        return "redirect:/atenciones/listar"; // Redirigir a la lista después de registrar
+    }
+
+    @GetMapping("/listar")
+    public String listarAtenciones(Model model) {
+        List<Atencion> atenciones = atencionService.listarAtenciones();
+        model.addAttribute("atenciones", atenciones);
+        return "listar-atenciones"; // Nombre de la vista
+    }
+}

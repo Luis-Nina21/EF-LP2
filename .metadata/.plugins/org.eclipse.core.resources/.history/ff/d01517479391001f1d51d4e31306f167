@@ -1,0 +1,61 @@
+import com.examenFinal.entidades.Paciente;
+import com.examenFinal.repositories.PacienteRepository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class PacienteService {
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    // Método para registrar un paciente y generar el PDF
+    public Paciente registrarPaciente(Paciente paciente) throws Exception {
+        // Guardar el paciente en la base de datos
+        Paciente nuevoPaciente = pacienteRepository.save(paciente);
+        
+        // Llamar al método para generar la constancia en PDF
+        generarPDFConstancia(nuevoPaciente);
+        
+        return nuevoPaciente;
+    }
+
+    // Método para listar los pacientes
+    public List<Paciente> listarPacientes() {
+        return pacienteRepository.findAll();
+    }
+
+    // Método para generar la constancia en PDF utilizando JasperReports
+    public void generarPDFConstancia(Paciente paciente) throws Exception {
+        // Ruta del archivo .jrxml dentro de la carpeta resources/reports
+        InputStream reportStream = new ClassPathResource("reports/constanciaApellido.jrxml").getInputStream();
+
+        // Compilar el archivo JRXML
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        // Crear el datasource con los datos del paciente
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(paciente));
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("nombre", paciente.getNombre());
+        parameters.put("apellido", paciente.getApellido());
+        parameters.put("direccion", paciente.getDireccion());
+        parameters.put("telefono", paciente.getTelefono());
+        parameters.put("email", paciente.getEmail());
+        parameters.put("alergias", paciente.getAlergias());
+
+        // Llenar el reporte con los datos del paciente y los parámetros
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+        // Exportar a PDF (guarda el archivo PDF en la carpeta raíz del proyecto)
+        JasperExportManager.exportReportToPdfFile(jasperPrint, "constancia_" + paciente.getApellido() + ".pdf");
+    }
+}

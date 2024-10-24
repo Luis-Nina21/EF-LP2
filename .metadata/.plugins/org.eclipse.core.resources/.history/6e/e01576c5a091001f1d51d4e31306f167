@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrar Atención</title>
+</head>
+<body>
+    <h2>Registrar Atención</h2>
+    <form th:action="@{/atenciones/registrar}" method="post" th:object="${atencion}">
+        <label for="paciente">Paciente:</label>
+        <select id="paciente" th:field="*{paciente}" required>
+            <option th:each="paciente : ${pacientes}" 
+                    th:value="${paciente}" 
+                    th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></option>
+        </select><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" th:field="*{descripcion}" required></textarea><br>
+        
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" th:field="*{fecha}" required><br>
+        
+        <button type="submit">Registrar</button>
+    </form>
+    <a href="/atenciones/listar">Ver Lista de Atenciones</a>
+</body>
+</html>

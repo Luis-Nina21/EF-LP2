@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Pacientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50; /* Color de fondo para los encabezados */
+            color: white; /* Color del texto de los encabezados */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Color de fondo al pasar el mouse sobre las filas */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: #fff;
+            background-color: #4CAF50; /* Color del botón de registro */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #45a049; /* Color al pasar el mouse sobre el botón */
+        }
+    </style>
+</head>
+<body>
+    <h2>Lista de Pacientes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Alergias</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="paciente : ${pacientes}">
+                <td th:text="${paciente.nombre}"></td>
+                <td th:text="${paciente.apellido}"></td>
+                <td th:text="${paciente.direccion}"></td>
+                <td th:text="${paciente.telefono}"></td>
+                <td th:text="${paciente.email}"></td>
+                <td th:text="${paciente.alergias}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/pacientes/registrar">Registrar nuevo paciente</a>
+</body>
+</html>

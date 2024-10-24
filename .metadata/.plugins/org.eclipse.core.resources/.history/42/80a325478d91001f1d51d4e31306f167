@@ -1,0 +1,37 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.examenFinal.entidades.Atencion;
+import com.examenFinal.entidades.Paciente;
+
+import java.util.List;
+
+@Service
+public class PacienteService {
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    public Paciente registrarPaciente(Paciente paciente) {
+        return pacienteRepository.save(paciente);
+    }
+
+    public List<Paciente> listarPacientes() {
+        return pacienteRepository.findAll();
+    }
+}
+
+@Service
+public class AtencionService {
+
+    @Autowired
+    private AtencionRepository atencionRepository;
+
+    public Atencion registrarAtencion(Atencion atencion) {
+        return atencionRepository.save(atencion);
+    }
+
+    public List<Atencion> listarAtenciones() {
+        return atencionRepository.findAll();
+    }
+}
